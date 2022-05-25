@@ -1,0 +1,36 @@
+﻿@model GTISolutionTeste.Models.ClienteEnderecoDTO
+
+<h3>Deseja excluir permanentemente o Cliente?</h3>
+
+@*@foreach (var lista in listaArquivos)
+    {*@
+
+<form action="@Url.Action("Delete", "Clientes" )" method="post" enctype="multipart/form-data">
+    <div class="row">
+        <div class="form-group col-md-4" hidden>
+            <label>ID:</label>
+            @Html.EditorFor(model => model.Id, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+        </div>
+        <div class="form-group col-md-4">
+            <label>Nome:</label>
+            @Html.EditorFor(model => model.nome, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+        </div>
+        <div class="form-group col-md-4">
+            <label>CPF:</label>
+            @Html.EditorFor(model => model.cpf, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+        </div>
+        <div class="form-group col-md-4">
+            <label>Data de Nascimento:</label>
+            @Html.EditorFor(model => model.dt_nascimento, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <input type="submit" class="btn btn-danger" value="Deletar" />
+
+        <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Fechar" style="color:white;">
+            <span aria-hidden="true">Fechar</span>
+        </button>
+    </div>
+</form>
+@*}*@

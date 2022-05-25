@@ -1,0 +1,145 @@
+﻿@model IEnumerable<GTISolutionTeste.Models.Cliente>
+
+@{
+    ViewBag.Title = "Clientes";
+}
+
+<h2>Lista de Clientes   </h2>
+@if (@TempData["ERRO"] != null)
+{
+    <div class="alert alert-danger" style="width:100%" role="alert">
+        <p style="color:black">
+            @TempData["ERRO"]
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </p>
+    </div>
+}
+@if (@TempData["SUCESSO"] != null)
+{
+    <div class="alert alert-success" style="width:100%" role="alert">
+        <p style="color:black">
+            @TempData["SUCESSO"]
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </p>
+    </div>
+}
+<p>
+    @Html.ActionLink("+ Novo Cliente", "Create", "", new { @class = "btn btn-primary" })
+</p>
+<table class="table table-hover">
+    <tr>
+        <th>
+            CPF
+        </th>
+        <th>
+            Nome
+        </th>
+        <th>
+            RG
+        </th>
+        <th>
+            Data Expedição
+        </th>
+        <th>
+            Órgão Expedição
+        </th>
+        <th>
+            UF Expedição
+        </th>
+        <th>
+            Data de Nascimento
+        </th>
+        <th>
+            Sexo
+        </th>
+        <th>
+            Estado Civil
+        </th>
+        <th></th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr style="text-align:center">
+            <td>
+                @Html.DisplayFor(modelItem => item.cpf)
+            </td>
+            <td style="text-align:left">
+                @Html.DisplayFor(modelItem => item.nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.rg)
+            </td>
+            @{
+
+                string dataExpedicao = Convert.ToDateTime(item.dt_expedicao).ToString("dd/MM/yyyy");
+                string dataNascimento = Convert.ToDateTime(item.dt_nascimento).ToString("dd/MM/yyyy");
+                if (dataExpedicao == "01/01/0001")
+                {
+                    dataExpedicao = "";
+                }
+            }
+            <td>
+                @dataExpedicao
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.orgaoExpedicao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UF)
+            </td>
+            <td>
+                @dataNascimento
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.sexo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.estadoCivil)
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { id = item.id_cliente }, new { @class = "btn btn-warning" })
+
+            </td>
+            <td>
+                <input data-value="@item.id_cliente" class="btn btn-danger btnDetailsDeletar" type="button" value="Deletar" />
+            </td>
+        </tr>
+    }
+
+</table>
+<!-- Modal EXCLUIR IMAGEM -->
+<div class="modal fade bd-example-modal-xl" id="modalExemploDeletar" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header TopoModal">
+                <h3 class="modal-title" id="exampleModalLabel">Deletar Cliente</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="conteudoModalDeletar"></div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".btnDetailsDeletar").click(function () {
+                var id = $(this).data("value");
+                /*$("#conteudoModal").load("/Lancamento/Details/" + id,*/
+                $("#conteudoModalDeletar").load('@Url.Action("DeletarCliente", "Clientes")' + "/" + id,
+                    function () {
+                        $('#modalExemploDeletar').modal("show");
+                    }
+                );
+            });
+        });
+    </script>}
