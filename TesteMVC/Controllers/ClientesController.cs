@@ -14,6 +14,7 @@ namespace GTISolutionTeste.Controllers
     public class ClientesController : Controller
     {
         private Contexto db = new Contexto();
+        public static string linkAPI = "http://localhost/api/";
 
         // GET: Clientes
         public ActionResult Index()
@@ -22,7 +23,7 @@ namespace GTISolutionTeste.Controllers
 
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("http://localhost/apiclientes/api/");
+                client.BaseAddress = new Uri(linkAPI);
 
                 //HTTP GET
                 var responseTask = client.GetAsync("clientes");
@@ -77,7 +78,7 @@ namespace GTISolutionTeste.Controllers
                 cliente.UF = Request["EstadosCliente"];
                 cliente.EnderecoCliente.Add(enderecoCliente);
 
-                client.BaseAddress = new Uri("http://localhost/apiclientes/api/");
+                client.BaseAddress = new Uri(linkAPI);
 
                 cliente.cpf = cliente.cpf.Replace(".", "");
                 cliente.cpf = cliente.cpf.Replace("-", "");
@@ -116,7 +117,7 @@ namespace GTISolutionTeste.Controllers
             {
                 
 
-                client.BaseAddress = new Uri("http://localhost/apiclientes/api/clientes");
+                client.BaseAddress = new Uri(linkAPI + "clientes");
 
                 //HTTP GET
                 var responseTask = client.GetAsync("?id=" + id.ToString());
@@ -161,13 +162,15 @@ namespace GTISolutionTeste.Controllers
                 enderecoCliente.bairro = Request["bairro"];
                 enderecoCliente.cidade = Request["cidade"];
                 enderecoCliente.UF = Request["EstadosEndereco"];
-                cliente.UF = Request["EstadosCliente"];
                 enderecoCliente.Cliente_id_cliente = Convert.ToInt32(Request["id"]);
-                cliente.id_cliente = Convert.ToInt32(Request["id"]);
+                enderecoCliente.id_endereco = Convert.ToInt32(Request["id_endereco"]);
 
                 cliente.EnderecoCliente.Add(enderecoCliente);
 
-                client.BaseAddress = new Uri("http://localhost/apiclientes/api/");
+                cliente.UF = Request["EstadosCliente"];
+                cliente.id_cliente = Convert.ToInt32(Request["id"]);
+
+                client.BaseAddress = new Uri(linkAPI);
                 cliente.cpf = cliente.cpf.Replace(".", "");
                 cliente.cpf = cliente.cpf.Replace("-", "");
                 //HTTP PUT
@@ -202,7 +205,7 @@ namespace GTISolutionTeste.Controllers
             {
 
 
-                client.BaseAddress = new Uri("http://localhost/apiclientes/api/clientes");
+                client.BaseAddress = new Uri(linkAPI + "clientes");
 
                 //HTTP GET
                 var responseTask = client.GetAsync("?id=" + id.ToString());
@@ -238,7 +241,7 @@ namespace GTISolutionTeste.Controllers
             Cliente cliente = null;
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("http://localhost/apiclientes/api/");
+                client.BaseAddress = new Uri(linkAPI);
                 //HTTP DELETE
                 var deleteTask = client.DeleteAsync("clientes/" + id.ToString());
                 deleteTask.Wait();
